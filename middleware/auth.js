@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const config = require("config");
 
 module.exports = function auth(req, res, next) {
   const token = req.header("x-auth-token");
@@ -7,7 +6,7 @@ module.exports = function auth(req, res, next) {
     return res.status(401).send("Token bolmaganligi sababli murojaat yo`q");
   }
   try {
-    const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
+    const decoded = jwt.verify(token, process.env.jwtPrivateKey);
     req.user = decoded;
     next();
   } catch (err) {

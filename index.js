@@ -1,16 +1,15 @@
 const express = require("express");
-const entranceRoute = require("./routes/staffs")
+const staffsRoute = require("./routes/staffs")
 const usersRoute = require("./routes/user")
 const authRoute = require("./routes/auth")
 const mongoose = require("mongoose");
 const app = express();
-const config = require('config')
+const _ = require('dotenv')
 
-if (!config.get('jwtPrivateKey')) {
+if (!process.env.jwtPrivateKey) {
   console.error("Error in env var");
   process.exit(1)
 }
-
 
 mongoose
   .connect("mongodb://localhost/EntranceSystem", {
@@ -24,7 +23,7 @@ mongoose
     console.error("MongoDBga ulanish vaqtida xato ro'y berdi...", err);
   });
 app.use(express.json());
-app.use("/api/entrance", entranceRoute);
+app.use("/api/entrance", staffsRoute);
 app.use("/api/users", usersRoute)
 app.use("/api/auth", authRoute)
 

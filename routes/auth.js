@@ -4,7 +4,6 @@ const Joi = require("joi");
 const router = express.Router();
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
-const config = require("config");
 const jwt = require("jsonwebtoken");
 
 router.post("/", async (req, res) => {
@@ -26,7 +25,7 @@ router.post("/", async (req, res) => {
     return res.status(400).send("Email yoki parol noto`g`ri");
   }
 
-  const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+  const token = jwt.sign({ _id: user._id }, process.env.jwtPrivateKey);
   res.header("x-auth-token", token).send(true);
 });
 
