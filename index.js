@@ -1,8 +1,16 @@
 const express = require("express");
 const entranceRoute = require("./routes/staffs")
 const usersRoute = require("./routes/user")
+const authRoute = require("./routes/auth")
 const mongoose = require("mongoose");
 const app = express();
+const config = require('config')
+
+if (!config.get('jwtPrivateKey')) {
+  console.error("Error in env var");
+  process.exit(1)
+}
+
 
 mongoose
   .connect("mongodb://localhost/EntranceSystem", {
@@ -18,6 +26,7 @@ mongoose
 app.use(express.json());
 app.use("/api/entrance", entranceRoute);
 app.use("/api/users", usersRoute)
+app.use("/api/auth", authRoute)
 
 const port = process.env.PORT || 5000;
 
